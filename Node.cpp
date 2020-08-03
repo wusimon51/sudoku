@@ -1,8 +1,14 @@
 #include "Node.h"
 
 
-Node::Node(int value, Node* left, Node* right) {
+Node::Node(int value) {
     this->value = value;
-    this->left = left;
-    this->right = right;
+}
+
+void Node::addLeft(Node *node) {
+    this->left = node;
+}
+
+void Node::addRight(Node *node) {
+    this->right = node;
 }

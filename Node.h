@@ -8,7 +8,10 @@ public:
     Node* left;
     Node* right;
 
-    Node(int value, Node* left, Node* right);
+    Node(int value);
+
+    void addLeft(Node* node);
+    void addRight(Node* node);
 };
 
 
