@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "Node.h"
+#include "Column.h"
 
 
 int main() {

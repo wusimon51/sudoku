@@ -13,6 +13,7 @@ public:
     Node* right;
     Node* up;
     Node* down;
+    Column* header;
 
     int size;
     std::string name;
