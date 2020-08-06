@@ -2,8 +2,15 @@
 #define SUDOKU_ROOT_H
 
 
-class Root {
+#include "Column.h"
 
+
+class Root {
+public:
+    Column* left;
+    Column* right;
+
+    Root();
 };
 
 
