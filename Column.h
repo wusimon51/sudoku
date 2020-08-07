@@ -18,7 +18,7 @@ public:
     int size;
     std::string name;
 
-    Column();
+    Column(int size, std::string name);
 };
 
 
