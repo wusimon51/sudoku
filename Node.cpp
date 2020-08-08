@@ -1,8 +1,9 @@
 #include "Node.h"
 
 
-Node::Node(int value) {
+Node::Node(int value, Column* header) {
     this->value = value;
+    this->header = header;
 }
 
 void Node::addLeft(Node* node) {
@@ -11,4 +12,12 @@ void Node::addLeft(Node* node) {
 
 void Node::addRight(Node* node) {
     this->right = node;
+}
+
+void Node::addUp(Node *node) {
+    this->up = node;
+}
+
+void Node::addDown(Node *node) {
+    this->down = node;
 }

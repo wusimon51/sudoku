@@ -25,7 +25,7 @@ int main() {
     for (int row = 0; row < grid.size(); row++) {
         for (int col = 0; col < grid[0].size(); col++) {
             if (grid[row][col] != '_') {
-                Node node((int)(grid[row][col] - '0'));
+
             }
         }
     }
