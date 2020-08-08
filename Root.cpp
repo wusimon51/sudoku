@@ -1,6 +1,10 @@
 #include "Root.h"
 
 
-Root::Root() {
+void Root::addLeft(Column *col) {
+    this->left = col;
+}
 
+void Root::addRight(Column *col) {
+    this->right = col;
 }

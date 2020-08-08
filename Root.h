@@ -10,7 +10,8 @@ public:
     Column* left;
     Column* right;
 
-    Root();
+    void addLeft(Column* col);
+    void addRight(Column* col);
 };
 
 
