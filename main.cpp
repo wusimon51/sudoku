@@ -5,8 +5,12 @@
 
 #include "Node.h"
 #include "Column.h"
-#include "Root.h"
 
+
+struct root {
+    Column* left;
+    Column* right;
+};
 
 int main() {
     std::ifstream txtFile;

@@ -9,14 +9,13 @@
 
 class Column {
 public:
-    Node* left;
-    Node* right;
-    Node* up;
-    Node* down;
-    Column* header;
-
     int size;
     std::string name;
+    void* left;
+    void* right;
+    void* up;
+    void* down;
+    Column* header;
 
     Column(int size, std::string name);
 };

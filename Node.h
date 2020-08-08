@@ -8,10 +8,10 @@
 class Node {
 public:
     int value;
-    Node* left;
-    Node* right;
-    Node* up;
-    Node* down;
+    void* left;
+    void* right;
+    void* up;
+    void* down;
     Column* header;
 
     Node(int value, Column* header);
