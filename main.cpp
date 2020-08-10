@@ -7,7 +7,7 @@
 #include "Column.h"
 
 
-struct root {
+struct Root {
     Column* left;
     Column* right;
 };
@@ -34,4 +34,5 @@ int main() {
         }
     }
 
+    Root root;
 }
