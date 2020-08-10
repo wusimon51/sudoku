@@ -34,4 +34,5 @@ int main() {
         }
     }
 
+    Root root;
 }
