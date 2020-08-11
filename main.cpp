@@ -4,8 +4,11 @@
 #include <algorithm>
 
 #include "Node.h"
-#include "Column.h"
 
+
+struct Column : public Node {
+    int size;
+};
 
 struct Root {
     std::unique_ptr<Column> left;
@@ -30,7 +33,7 @@ int main() {
     Root root;
 
     for (int col = 0; col < 324; col++) {
-        Column column(0);
+
     }
 
 }

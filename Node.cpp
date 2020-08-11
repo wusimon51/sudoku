@@ -1,7 +1,7 @@
 #include "Node.h"
 
 
-Node::Node(int value, Node* header) {
+Node::Node(int value ) {
     this->value = value;
     this->header = header;
 }

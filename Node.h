@@ -14,7 +14,7 @@ public:
     std::unique_ptr<Node> down;
     std::unique_ptr<Node> header; //Subclass Column will be used
 
-    Node(int value, Node* header);
+    Node(int value);
 
     void addLeft(Node*& node);
     void addRight(Node*& node);
