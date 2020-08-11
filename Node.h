@@ -16,10 +16,10 @@ public:
 
     Node(int value);
 
-    void addLeft(Node*& node);
-    void addRight(Node*& node);
-    void addUp(Node*& node);
-    void addDown(Node*& node);
+    void addLeft(Node* node);
+    void addRight(Node* node);
+    void addUp(Node* node);
+    void addDown(Node* node);
 };
 
 

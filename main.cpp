@@ -31,9 +31,12 @@ int main() {
 
     //initial 729x324 matrix
     Root root;
-
-    for (int col = 0; col < 324; col++) {
-
-    }
+    Node node(12);
+    Node node2(5);
+    node.header = static_cast<std::unique_ptr<Node>>(&node2);
+    std::cout << node.header->value <<std::endl;
+//    for (int col = 0; col < 324; col++) {
+//
+//    }
 
 }

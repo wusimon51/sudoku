@@ -1,23 +1,22 @@
 #include "Node.h"
 
 
-Node::Node(int value ) {
+Node::Node(int value) {
     this->value = value;
-    this->header = header;
 }
 
-void Node::addLeft(Node*& node) {
-    this->left = node;
+void Node::addLeft(Node* node) {
+    this->left = static_cast<std::unique_ptr<Node>>(node);
 }
 
 void Node::addRight(Node* node) {
-    this->right = node;
+    this->right = static_cast<std::unique_ptr<Node>>(node);
 }
 
 void Node::addUp(Node *node) {
-    this->up = node;
+    this->up = static_cast<std::unique_ptr<Node>>(node);
 }
 
 void Node::addDown(Node *node) {
-    this->down = node;
+    this->down = static_cast<std::unique_ptr<Node>>(node);
 }
