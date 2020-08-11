@@ -2,24 +2,24 @@
 #define SUDOKU_NODE_H
 
 
-#include "Column.h"
+#include <memory>
 
 
 class Node {
 public:
     int value;
-    void* left;
-    void* right;
-    void* up;
-    void* down;
-    Column* header;
+    std::unique_ptr<Node> left;
+    std::unique_ptr<Node> right;
+    std::unique_ptr<Node> up;
+    std::unique_ptr<Node> down;
+    std::unique_ptr<Node> header; //Subclass Column will be used
 
-    Node(int value, Column* header);
+    Node(int value, Node* header);
 
-    void addLeft(Node* node);
-    void addRight(Node* node);
-    void addUp(Node* node);
-    void addDown(Node* node);
+    void addLeft(Node*& node);
+    void addRight(Node*& node);
+    void addUp(Node*& node);
+    void addDown(Node*& node);
 };
 
 

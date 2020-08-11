@@ -1,7 +1,6 @@
 #include "Column.h"
 
 
-Column::Column(int size, std::string name) {
+Column::Column(int size) {
     this->size = size;
-    this->name = name;
 }

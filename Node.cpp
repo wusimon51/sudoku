@@ -1,12 +1,12 @@
 #include "Node.h"
 
 
-Node::Node(int value, Column* header) {
+Node::Node(int value, Node* header) {
     this->value = value;
     this->header = header;
 }
 
-void Node::addLeft(Node* node) {
+void Node::addLeft(Node*& node) {
     this->left = node;
 }
 

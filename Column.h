@@ -2,22 +2,19 @@
 #define SUDOKU_COLUMN_H
 
 
-#include <string>
-
 #include "Node.h"
 
 
-class Column {
+class Column : public Node {
 public:
     int size;
-    std::string name;
-    void* left;
-    void* right;
-    void* up;
-    void* down;
-    Column* header;
+    std::unique_ptr<Node> left;
+    std::unique_ptr<Node> right;
+    std::unique_ptr<Node> up;
+    std::unique_ptr<Node> down;
+    std::unique_ptr<Column> header;
 
-    Column(int size, std::string name);
+    Column(int size);
 };
 
 

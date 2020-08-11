@@ -8,8 +8,8 @@
 
 
 struct Root {
-    Column* left;
-    Column* right;
+    std::unique_ptr<Column> left;
+    std::unique_ptr<Column> right;
 };
 
 int main() {
@@ -26,13 +26,11 @@ int main() {
     }
     txtFile.close();
 
-    for (int row = 0; row < grid.size(); row++) {
-        for (int col = 0; col < grid[0].size(); col++) {
-            if (grid[row][col] != '_') {
+    //initial 729x324 matrix
+    Root root;
 
-            }
-        }
+    for (int col = 0; col < 324; col++) {
+        Column column(0);
     }
 
-    Root root;
 }
