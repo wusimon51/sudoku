@@ -1,14 +1,17 @@
 #include <iostream>
 #include <fstream>
+#include <utility>
 #include <vector>
 #include <algorithm>
+#include <string>
 
 #include "Node.h"
 
 
 struct Column : public Node {
     int size;
-    Column(int size) : size(size) {};
+    std::string name;
+    Column(int size, std::string name) : size(size), name(std::move(name)) {};
 };
 
 int main() {
@@ -27,11 +30,12 @@ int main() {
 
     //initial 729x324 matrix
     Node root;
-    Column start(0);
+    Column start(0, "0");
     start.addLeft(&root);
+    root.addRight(&start);
 
     for (int col = 0; col < 324; col++) {
-        Column column(0);
+
     }
 
 }
