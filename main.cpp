@@ -30,12 +30,14 @@ int main() {
 
     //initial 729x324 matrix
     Node root;
-    Column start(0, "0");
-    start.addLeft(&root);
-    root.addRight(&start);
+    std::vector<std::vector<Node>> matrix;
 
-    for (int col = 0; col < 324; col++) {
-
+    std::vector<Column> columns;
+    columns.reserve(324);
+    for (int i = 0; i < 324; i++) {
+        columns.emplace_back(Column(0, std::to_string(i)));
     }
+
+
 
 }
