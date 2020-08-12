@@ -7,14 +7,11 @@
 
 class Node {
 public:
-    int value;
     std::unique_ptr<Node> left;
     std::unique_ptr<Node> right;
     std::unique_ptr<Node> up;
     std::unique_ptr<Node> down;
     std::unique_ptr<Node> header; //Subclass Column will be used
-
-    Node(int value);
 
     void addLeft(Node* node);
     void addRight(Node* node);

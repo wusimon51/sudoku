@@ -8,11 +8,7 @@
 
 struct Column : public Node {
     int size;
-};
-
-struct Root {
-    std::unique_ptr<Column> left;
-    std::unique_ptr<Column> right;
+    Column(int size) : size(size) {};
 };
 
 int main() {
@@ -30,13 +26,12 @@ int main() {
     txtFile.close();
 
     //initial 729x324 matrix
-    Root root;
-    Node node(12);
-    Node node2(5);
-    node.header = static_cast<std::unique_ptr<Node>>(&node2);
-    std::cout << node.header->value <<std::endl;
-//    for (int col = 0; col < 324; col++) {
-//
-//    }
+    Node root;
+    Column start(0);
+    start.addLeft(&root);
+
+    for (int col = 0; col < 324; col++) {
+        Column column(0);
+    }
 
 }

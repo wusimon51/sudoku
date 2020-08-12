@@ -1,10 +1,6 @@
 #include "Node.h"
 
 
-Node::Node(int value) {
-    this->value = value;
-}
-
 void Node::addLeft(Node* node) {
     this->left = static_cast<std::unique_ptr<Node>>(node);
 }
