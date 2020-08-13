@@ -7,16 +7,17 @@
 
 class Node {
 public:
-    std::unique_ptr<Node> left;
-    std::unique_ptr<Node> right;
-    std::unique_ptr<Node> up;
-    std::unique_ptr<Node> down;
-    std::unique_ptr<Node> header; //Subclass Column will be used
+    Node* left;
+    Node* right;
+    Node* up;
+    Node* down;
+    Node* header; //Subclass Column will be used
 
     void addLeft(Node* node);
     void addRight(Node* node);
     void addUp(Node* node);
     void addDown(Node* node);
+    void addHeader(Node* node);
 };
 
 
