@@ -11,6 +11,8 @@
 struct Root {
     Column* left;
     Column* right;
+
+    Root(Column* left, Column* right) : left(left), right(right) {};
 };
 
 int main() {
@@ -34,6 +36,8 @@ int main() {
     for (int i = 1; i < 325; i++) {
         columns.emplace_back(Column(0, std::to_string(i)));
     }
+
+    Root root(&columns[323], &columns[0]);
 
     for (int i = 1; i < 730; i++) {
         Cell first, second, third, fourth;
