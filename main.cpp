@@ -1,17 +1,16 @@
 #include <iostream>
 #include <fstream>
-#include <utility>
 #include <vector>
 #include <algorithm>
-#include <string>
 
 #include "Node.h"
+#include "Column.h"
+#include "Cell.h"
 
 
-struct Column : public Node {
-    int size;
-    std::string name;
-    Column(int size, std::string name) : size(size), name(std::move(name)) {};
+struct Root {
+    Column* left;
+    Column* right;
 };
 
 int main() {
@@ -30,8 +29,7 @@ int main() {
     txtFile.close();
 
     //initial 729x324 matrix
-    Node root;
-    std::vector<std::vector<Node>> matrix;
+    std::vector<std::vector<Cell>> matrix;
     matrix.reserve(729);
 
     std::vector<Column> columns;
@@ -40,19 +38,15 @@ int main() {
         columns.emplace_back(Column(0, std::to_string(i)));
     }
 
-    Node node;
-    std::cout << &columns[3] << std::endl;
-    node.addHeader(&columns[3]);
-    std::cout << node.header << std::endl;
-//    for (int i = 1; i < 730; i++) {
-//        Node first, second, third, fourth;
-//        if (i % 9 != 0) {
-//            first.addHeader(&columns[i / 9]);
-//        } else {
-//            first.addHeader(&columns[(i / 9) - 1]);
-//        }
-//        std::cout << first.header.get() << std::endl;
-//    }
+    for (int i = 1; i < 730; i++) {
+        Cell first, second, third, fourth;
+        if (i % 9 != 0) {
+            first.addHeader(&columns[i / 9]);
+        } else {
+            first.addHeader(&columns[(i / 9) - 1]);
+        }
+        std::cout << first.header << " " << std::flush;
+    }
 
 
 }

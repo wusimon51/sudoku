@@ -16,7 +16,3 @@ void Node::addUp(Node* node) {
 void Node::addDown(Node* node) {
     this->down = node;
 }
-
-void Node::addHeader(Node* node) {
-    this->down = node;
-}
