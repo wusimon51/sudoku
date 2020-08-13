@@ -29,9 +29,6 @@ int main() {
     txtFile.close();
 
     //initial 729x324 matrix
-    std::vector<std::vector<Cell>> matrix;
-    matrix.reserve(729);
-
     std::vector<Column> columns;
     columns.reserve(324);
     for (int i = 1; i < 325; i++) {
@@ -45,7 +42,6 @@ int main() {
         } else {
             first.addHeader(&columns[(i / 9) - 1]);
         }
-        std::cout << first.header << " " << std::flush;
     }
 
 

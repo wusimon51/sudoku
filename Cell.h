@@ -6,7 +6,7 @@
 #include "Column.h"
 
 
-class Cell {
+class Cell : public Node {
 public:
     Column* header; //Subclass Column will be used
 
