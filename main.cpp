@@ -31,6 +31,9 @@ int main() {
     txtFile.close();
 
     //initial 729x324 matrix
+    std::vector<std::vector<Cell*>> matrix;
+    matrix.reserve(729);
+
     std::vector<Column> columns;
     columns.reserve(324);
     for (int i = 1; i < 325; i++) {
@@ -41,11 +44,37 @@ int main() {
 
     for (int i = 1; i < 730; i++) {
         Cell first, second, third, fourth;
+        std::vector<Cell*> row;
+        row.push_back(&first);
+        row.push_back(&second);
+        row.push_back(&third);
+        row.push_back(&fourth);
+        matrix.push_back(row);
+
+        //first constraint
         if (i % 9 != 0) {
             first.addHeader(&columns[i / 9]);
         } else {
             first.addHeader(&columns[(i / 9) - 1]);
         }
+
+        //second constraint
+        for (int interval = 0; interval < 9; interval++) {
+            int start = 81 + interval * 9;
+            for (int counter = 0; counter < 9; counter++, start++) {
+
+            }
+        }
+
+        //horizontal linking
+        first.addLeft(&fourth);
+        first.addRight(&second);
+        second.addLeft(&first);
+        second.addRight(&third);
+        third.addLeft(&second);
+        third.addRight(&fourth);
+        fourth.addLeft(&third);
+        fourth.addRight(&first);
     }
 
 
