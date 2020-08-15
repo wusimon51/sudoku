@@ -51,8 +51,9 @@ int main() {
         row.push_back(&fourth);
         matrix.push_back(row);
 
-        //for var for second constraint, third initialized
-        int interval;
+        int interval; //for second constraint
+
+        //third constraint
         int thirdStart = 162;
         if (i % 81 != 0) {
             interval = i / 81;
@@ -61,9 +62,9 @@ int main() {
             interval = i / 81 - 1;
             third.addHeader(&columns[thirdStart + 80]);
         }
-        int secondStart = 81 + 9 * interval;
 
         //first and second constraints
+        int secondStart = 81 + 9 * interval;
         if (i % 9 != 0) {
             first.addHeader(&columns[i / 9]);
             second.addHeader(&columns[secondStart + (i % 9 - 1)]);
@@ -71,6 +72,8 @@ int main() {
             first.addHeader(&columns[(i / 9) - 1]);
             second.addHeader(&columns[secondStart + 8]);
         }
+
+        int fourthStart = 243;
 
         //horizontal linking
         first.addLeft(&fourth);
