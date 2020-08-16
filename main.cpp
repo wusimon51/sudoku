@@ -73,7 +73,27 @@ int main() {
             second.addHeader(&columns[secondStart + 8]);
         }
 
-        int fourthStart = 243;
+        //fourth constraint
+        interval = i % 243 != 0 ? i / 243 : i / 243 - 1;
+        int subinterval;
+        for (int upper = 27; upper < 729; upper += 81) {
+            if (i >= upper - 26 && i <= upper) {
+                subinterval = 0;
+                break;
+            } else if (i > upper && i <= upper + 27) {
+                subinterval = 1;
+                break;
+            } else if (i > upper + 27 && i <= upper + 54){
+                subinterval = 2;
+                break;
+            }
+        }
+        int fourthStart = 243 + 27 * interval + 9 * subinterval;
+        if (i % 9 != 0) {
+            fourth.addHeader(&columns[fourthStart + i % 9 - 1]);
+        } else {
+            fourth.addHeader(&columns[fourthStart + 8]);
+        }
 
         //horizontal linking
         first.addLeft(&fourth);
@@ -85,5 +105,7 @@ int main() {
         fourth.addLeft(&third);
         fourth.addRight(&first);
     }
-
+    for (const auto& column : columns) {
+        std::cout << column.size << " " << std::flush;
+    }
 }
