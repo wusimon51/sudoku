@@ -15,6 +15,39 @@ struct Root {
     Root(Column* left, Column* right) : left(left), right(right) {};
 };
 
+void vertLink(Cell* cell, Column* col) {
+    switch (col->size) {
+        case 0:
+            col->addDown(cell);
+            cell->addUp(col);
+        case 1:
+            col->down->addDown(cell);
+            cell->addUp(col->down);
+        case 2:
+            col->down->down->addDown(cell);
+            cell->addUp(col->down->down);
+        case 3:
+            col->down->down->down->addDown(cell);
+            cell->addUp(col->down->down->down);
+        case 4:
+            col->down->down->down->down->addDown(cell);
+            cell->addUp(col->down->down->down->down);
+        case 5:
+            col->down->down->down->down->down->addDown(cell);
+            cell->addUp(col->down->down->down->down->down);
+        case 6:
+            col->down->down->down->down->down->down->addDown(cell);
+            cell->addUp(col->down->down->down->down->down->down);
+        case 7:
+            col->down->down->down->down->down->down->down->addDown(cell);
+            cell->addUp(col->down->down->down->down->down->down->down);
+        case 8:
+            col->down->down->down->down->down->down->down->down->addDown(cell);
+            cell->addUp(col->down->down->down->down->down->down->down->down);
+            cell->addDown(col);
+    }
+}
+
 int main() {
     //initial file reading
     std::ifstream txtFile;
@@ -32,7 +65,7 @@ int main() {
 
     //initial 729x324 matrix
     std::vector<std::vector<Cell*>> matrix;
-    matrix.reserve(729);
+    matrix.reserve(324);
 
     std::vector<Column> columns;
     columns.reserve(324);
@@ -42,14 +75,8 @@ int main() {
 
     Root root(&columns[323], &columns[0]);
 
-    for (int i = 1; i < 730; i++) {
+    for (int i = 1; i < 2; i++) {
         Cell first, second, third, fourth;
-        std::vector<Cell*> row;
-        row.push_back(&first);
-        row.push_back(&second);
-        row.push_back(&third);
-        row.push_back(&fourth);
-        matrix.push_back(row);
 
         int interval; //for second constraint
 
@@ -75,7 +102,7 @@ int main() {
 
         //fourth constraint
         interval = i % 243 != 0 ? i / 243 : i / 243 - 1;
-        int subinterval;
+        int subinterval = 0;
         for (int upper = 27; upper < 729; upper += 81) {
             if (i >= upper - 26 && i <= upper) {
                 subinterval = 0;
@@ -104,8 +131,22 @@ int main() {
         third.addRight(&fourth);
         fourth.addLeft(&third);
         fourth.addRight(&first);
+
+        //vertical linking
+//        vertLink(&first, first.header);
     }
-    for (const auto& column : columns) {
-        std::cout << column.size << " " << std::flush;
+
+    for (int i = 0; i < 324; i++) {
+        if (i == 0) {
+            columns[i].addLeft(&columns[323]);
+            columns[i].addRight(&columns[1]);
+        } else if (i == 323) {
+            columns[i].addLeft(&columns[322]);
+            columns[i].addRight(&columns[0]);
+        } else {
+            columns[i].addLeft(&columns[i - 1]);
+            columns[i].addRight(&columns[i + 1]);
+        }
     }
+
 }
