@@ -15,6 +15,29 @@ struct Root {
     Root(Column* left, Column* right) : left(left), right(right) {};
 };
 
+void vertLink(Cell &cell, Column &col) {
+    if (!col.down) {
+        col.addDown(&cell);
+        cell.addUp(&col);
+    } else {
+        Node* down = col.down;
+        while (true) {
+            if (!down->down) {
+                break;
+            } else {
+                down = down->down;
+            }
+        }
+        down->addDown(&cell);
+        cell.addUp(down);
+    }
+
+    if (col.size == 9) {
+        col.addUp(&cell);
+        cell.addDown(&col);
+    }
+}
+
 int main() {
     //initial file reading
     std::ifstream txtFile;
@@ -31,8 +54,7 @@ int main() {
     txtFile.close();
 
     //initial 729x324 matrix
-    std::vector<std::vector<Cell*>> matrix;
-    matrix.reserve(324);
+    std::vector<Cell*> cellList;
 
     std::vector<Column> columns;
     columns.reserve(324);
@@ -42,8 +64,15 @@ int main() {
 
     Root root(&columns[323], &columns[0]);
 
-    for (int i = 1; i < 2; i++) {
-        Cell first, second, third, fourth;
+    for (int i = 1; i < 730; i++) {
+        Cell* first = new Cell;
+        cellList.push_back(first);
+        Cell* second = new Cell;
+        cellList.push_back(second);
+        Cell* third = new Cell;
+        cellList.push_back(third);
+        Cell* fourth = new Cell;
+        cellList.push_back(fourth);
 
         int interval; //for second constraint
 
@@ -51,20 +80,20 @@ int main() {
         int thirdStart = 162;
         if (i % 81 != 0) {
             interval = i / 81;
-            third.addHeader(&columns[thirdStart + (i % 81 - 1)]);
+            third->addHeader(&columns[thirdStart + (i % 81 - 1)]);
         } else {
             interval = i / 81 - 1;
-            third.addHeader(&columns[thirdStart + 80]);
+            third->addHeader(&columns[thirdStart + 80]);
         }
 
         //first and second constraints
         int secondStart = 81 + 9 * interval;
         if (i % 9 != 0) {
-            first.addHeader(&columns[i / 9]);
-            second.addHeader(&columns[secondStart + (i % 9 - 1)]);
+            first->addHeader(&columns[i / 9]);
+            second->addHeader(&columns[secondStart + (i % 9 - 1)]);
         } else {
-            first.addHeader(&columns[(i / 9) - 1]);
-            second.addHeader(&columns[secondStart + 8]);
+            first->addHeader(&columns[(i / 9) - 1]);
+            second->addHeader(&columns[secondStart + 8]);
         }
 
         //fourth constraint
@@ -84,20 +113,26 @@ int main() {
         }
         int fourthStart = 243 + 27 * interval + 9 * subinterval;
         if (i % 9 != 0) {
-            fourth.addHeader(&columns[fourthStart + i % 9 - 1]);
+            fourth->addHeader(&columns[fourthStart + i % 9 - 1]);
         } else {
-            fourth.addHeader(&columns[fourthStart + 8]);
+            fourth->addHeader(&columns[fourthStart + 8]);
         }
 
         //horizontal linking
-        first.addLeft(&fourth);
-        first.addRight(&second);
-        second.addLeft(&first);
-        second.addRight(&third);
-        third.addLeft(&second);
-        third.addRight(&fourth);
-        fourth.addLeft(&third);
-        fourth.addRight(&first);
+        first->addLeft(fourth);
+        first->addRight(second);
+        second->addLeft(first);
+        second->addRight(third);
+        third->addLeft(second);
+        third->addRight(fourth);
+        fourth->addLeft(third);
+        fourth->addRight(first);
+
+        //vertical linking
+        vertLink(*first, *first->header);
+        vertLink(*second, *second->header);
+        vertLink(*third, *third->header);
+        vertLink(*fourth, *fourth->header);
     }
 
     for (int i = 0; i < 324; i++) {
@@ -111,6 +146,10 @@ int main() {
             columns[i].addLeft(&columns[i - 1]);
             columns[i].addRight(&columns[i + 1]);
         }
+    }
+
+    for (auto cell : cellList) {
+        delete cell;
     }
 
 }
