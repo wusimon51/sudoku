@@ -4,10 +4,10 @@
 
 class Node {
 public:
-    Node* left;
-    Node* right;
-    Node* up;
-    Node* down;
+    Node* left = nullptr;
+    Node* right = nullptr;
+    Node* up = nullptr;
+    Node* down = nullptr;
 
     void addLeft(Node* node);
     void addRight(Node* node);

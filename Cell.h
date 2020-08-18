@@ -8,7 +8,7 @@
 
 class Cell : public Node {
 public:
-    Column* header; //Subclass Column will be used
+    Column* header = nullptr; //Subclass Column will be used
 
     void addHeader(Column* col);
 };
