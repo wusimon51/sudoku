@@ -13,6 +13,7 @@ public:
     void addRight(Node* node);
     void addUp(Node* node);
     void addDown(Node* node);
+    virtual void addHeader() {};
 };
 
 

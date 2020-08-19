@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <algorithm>
 
 #include "Node.h"
 #include "Column.h"
@@ -35,6 +34,23 @@ void vertLink(Cell &cell, Column &col) {
     if (col.size == 9) {
         col.addUp(&cell);
         cell.addDown(&col);
+    }
+}
+
+void cover(Column &col) {
+    col.right->left = col.left;
+    col.left->right = col.right;
+    Node* i = col.down;
+    while (i != &col) {
+        Node* j = i->right;
+        while (j != i) {
+            j->down->up = j->up;
+            j->up->down = j->down;
+            Cell* cell = dynamic_cast<Cell*>(j);
+            cell->header->size--;
+            j = j->right;
+        }
+        i = i->down;
     }
 }
 
@@ -135,6 +151,7 @@ int main() {
         vertLink(*fourth, *fourth->header);
     }
 
+    //linking columns
     for (int i = 0; i < 324; i++) {
         if (i == 0) {
             columns[i].addLeft(&columns[323]);
@@ -148,6 +165,7 @@ int main() {
         }
     }
 
+    //deallocating memory
     for (auto cell : cellList) {
         delete cell;
     }
