@@ -54,6 +54,23 @@ void cover(Column &col) {
     }
 }
 
+void uncover(Column &col) {
+    Node* i = col.up;
+    while (i != &col) {
+        Node* j = i->left;
+        while (j != i) {
+            Cell* cell = dynamic_cast<Cell*>(j);
+            cell->header->size++;
+            j->down->up == j;
+            j->up->down = j;
+            j = j->left;
+        }
+        i = i->up;
+    }
+    col.right->left = &col;
+    col.left->right = &col;
+}
+
 int main() {
     //initial file reading
     std::ifstream txtFile;
