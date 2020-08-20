@@ -37,6 +37,7 @@ void vertLink(Cell &cell, Column &col) {
     }
 }
 
+//iterate down every i of column, every j to the right of i is removed in other columns
 void cover(Column &col) {
     col.right->left = col.left;
     col.left->right = col.right;
@@ -181,6 +182,8 @@ int main() {
             columns[i].addRight(&columns[i + 1]);
         }
     }
+
+
 
     //deallocating memory
     for (auto cell : cellList) {
