@@ -55,6 +55,7 @@ void cover(Column &col) {
     }
 }
 
+//iterate up every i of column, every j left of i is linked with the other nodes
 void uncover(Column &col) {
     Node* i = col.up;
     while (i != &col) {
