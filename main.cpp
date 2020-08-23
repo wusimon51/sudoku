@@ -184,11 +184,19 @@ int main() {
         }
     }
 
-
+    //placing pre-existing numbers
+    for (int i = 0; i < grid.size(); i++) {
+        for (int j = 0; j < grid[0].size(); j++) {
+            if (grid[i][j] != '_') {
+                // + grid[i][j] - 48
+            }
+        }
+    }
 
     //deallocating memory
-    for (auto cell : cellList) {
-        delete cell;
+    for (auto & i : cellList) {
+        delete i;
     }
+
 
 }
