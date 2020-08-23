@@ -63,7 +63,7 @@ void uncover(Column &col) {
         while (j != i) {
             Cell* cell = dynamic_cast<Cell*>(j);
             cell->header->size++;
-            j->down->up == j;
+            j->down->up = j;
             j->up->down = j;
             j = j->left;
         }
