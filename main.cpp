@@ -7,13 +7,6 @@
 #include "Cell.h"
 
 
-struct Root {
-    Column* left;
-    Column* right;
-
-    Root(Column* left, Column* right) : left(left), right(right) {};
-};
-
 void vertLink(Cell &cell, Column &col) {
     if (!col.down) {
         col.addDown(&cell);
@@ -73,6 +66,54 @@ void uncover(Column &col) {
     col.left->right = &col;
 }
 
+bool search(Column &root) {
+    if (root.right == &root) {
+        return true;
+    } else {
+        //choosing smallest column
+        Node* right = root.right;
+        auto col = dynamic_cast<Column*>(right);
+        int size = col->size;
+        while (right != &root) {
+            auto next = dynamic_cast<Column*>(right);
+            if (next->size < size) {
+                col = next;
+            }
+            right = right->right;
+        }
+
+        cover(*col);
+
+        //recursion on smaller matrix
+        Node* r = col->down;
+        while (r != col) {
+            //TODO set Ok <- r
+            Node* j = r->right;
+            while (j != r) {
+                auto jCol = dynamic_cast<Column*>(j);
+                cover(*jCol);
+                j = j->right;
+            }
+            if (search(root)) {
+                break;
+            } else {
+                //restore previous state
+                // TODO set r <- Ok and c <- C[r]
+                j = r->left;
+                while (j != r) {
+                    auto jCol = dynamic_cast<Column*>(j);
+                    uncover(*jCol);
+                    j = j->left;
+                }
+            }
+            r = r->down;
+        }
+
+        uncover(*col);
+        return false;
+    }
+}
+
 int main() {
     //initial file reading
     std::ifstream txtFile;
@@ -89,7 +130,7 @@ int main() {
     txtFile.close();
 
     //initial 729x324 matrix
-    std::vector<Cell*> cellList;
+    std::vector<Cell*> cellList; //to free memory later
 
     std::vector<Column> columns;
     columns.reserve(324);
@@ -97,7 +138,9 @@ int main() {
         columns.emplace_back(Column(0, std::to_string(i)));
     }
 
-    Root root(&columns[323], &columns[0]);
+    Column root(0, "Root");
+    root.addRight(&columns[0]);
+    root.addLeft(&columns[323]);
 
     for (int i = 1; i < 730; i++) {
         Cell* first = new Cell;
@@ -188,14 +231,16 @@ int main() {
     for (int i = 0; i < grid.size(); i++) {
         for (int j = 0; j < grid[0].size(); j++) {
             if (grid[i][j] != '_') {
-                // + grid[i][j] - 48
+                int start = 81 * i + 9 * j + 1;
+                Node* node = columns[start / 9].down;
+                int num = 1;
             }
         }
     }
 
     //deallocating memory
-    for (auto & i : cellList) {
-        delete i;
+    for (auto &cell : cellList) {
+        delete cell;
     }
 
 
