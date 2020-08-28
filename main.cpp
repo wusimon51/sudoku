@@ -7,11 +7,12 @@
 #include "Cell.h"
 
 
-//TODO open file, create grid
+////TODO open file, create grid
 //TODO remove numbers from matrix using grid by covering and including rows in solution
 //TODO create empty list to store solution nodes' rows in matrix
 //TODO cover the matrix, add solutions
 //TODO put solution in txt using sorted list of rows
+
 void vertLink(Cell &cell, Column &col) {
     if (!col.down) {
         col.addDown(&cell);
@@ -214,6 +215,12 @@ int main() {
         vertLink(*second, *second->header);
         vertLink(*third, *third->header);
         vertLink(*fourth, *fourth->header);
+
+        //adding rows
+        first->row = i;
+        second->row = i;
+        third->row = i;
+        fourth->row = i;
     }
 
     //linking columns
