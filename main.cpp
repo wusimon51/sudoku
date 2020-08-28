@@ -7,6 +7,11 @@
 #include "Cell.h"
 
 
+//TODO open file, create grid
+//TODO remove numbers from matrix using grid by covering and including rows in solution
+//TODO create empty list to store solution nodes' rows in matrix
+//TODO cover the matrix, add solutions
+//TODO put solution in txt using sorted list of rows
 void vertLink(Cell &cell, Column &col) {
     if (!col.down) {
         col.addDown(&cell);
@@ -30,7 +35,6 @@ void vertLink(Cell &cell, Column &col) {
     }
 }
 
-//iterate down every i of column, every j to the right of i is removed in other columns
 void cover(Column &col) {
     col.right->left = col.left;
     col.left->right = col.right;
@@ -48,7 +52,6 @@ void cover(Column &col) {
     }
 }
 
-//iterate up every i of column, every j left of i is linked with the other nodes
 void uncover(Column &col) {
     Node* i = col.up;
     while (i != &col) {
@@ -98,7 +101,7 @@ bool search(Column &root) {
                 break;
             } else {
                 //restore previous state
-                // TODO set r <- Ok and c <- C[r]
+                //TODO set r <- Ok and c <- C[r]
                 j = r->left;
                 while (j != r) {
                     auto jCol = dynamic_cast<Column*>(j);
@@ -227,7 +230,7 @@ int main() {
         }
     }
 
-    //placing pre-existing numbers
+    //remove pre-existing numbers from matrix
     for (int i = 0; i < grid.size(); i++) {
         for (int j = 0; j < grid[0].size(); j++) {
             if (grid[i][j] != '_') {
