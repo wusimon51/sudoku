@@ -8,7 +8,7 @@ public:
     Node* right = nullptr;
     Node* up = nullptr;
     Node* down = nullptr;
-    int row;
+    int row = 0;
 
     void addLeft(Node* node);
     void addRight(Node* node);

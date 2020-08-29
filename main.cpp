@@ -8,8 +8,9 @@
 
 
 ////TODO open file, create grid
-//TODO remove numbers from matrix using grid by covering and including rows in solution
-//TODO create empty list to store solution nodes' rows in matrix
+////TODO create empty list to store solution nodes' rows in matrix
+//TODO remove numbers from matrix using grid by covering the 4 columns for each row
+//TODO include rows in solution
 //TODO cover the matrix, add solutions
 //TODO put solution in txt using sorted list of rows
 
@@ -142,10 +143,6 @@ int main() {
         columns.emplace_back(Column(0, std::to_string(i)));
     }
 
-    Column root(0, "Root");
-    root.addRight(&columns[0]);
-    root.addLeft(&columns[323]);
-
     for (int i = 1; i < 730; i++) {
         Cell* first = new Cell;
         cellList.push_back(first);
@@ -224,26 +221,51 @@ int main() {
     }
 
     //linking columns
+    Column root(0, "Root");
+    root.addRight(&columns[0]);
+    root.addLeft(&columns[323]);
+
     for (int i = 0; i < 324; i++) {
         if (i == 0) {
-            columns[i].addLeft(&columns[323]);
+            columns[i].addLeft(&root);
             columns[i].addRight(&columns[1]);
         } else if (i == 323) {
             columns[i].addLeft(&columns[322]);
-            columns[i].addRight(&columns[0]);
+            columns[i].addRight(&root);
         } else {
             columns[i].addLeft(&columns[i - 1]);
             columns[i].addRight(&columns[i + 1]);
         }
     }
 
+    std::vector<int> solution;
     //remove pre-existing numbers from matrix
-    for (int i = 0; i < grid.size(); i++) {
-        for (int j = 0; j < grid[0].size(); j++) {
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
             if (grid[i][j] != '_') {
-                int start = 81 * i + 9 * j + 1;
-                Node* node = columns[start / 9].down;
-                int num = 1;
+                int row = (81 * i) + (9 * j) + (grid[i][j] - 48);
+                Column* firstCol;
+                if (row % 9 != 0) {
+                    firstCol = &columns[row / 9];
+                } else {
+                    firstCol = &columns[(row / 9) - 1];
+                }
+                //cover row's 4 columns
+                Node* node = firstCol->down;
+                while (node != firstCol) {
+                    if (node->row == row) {
+                        break;
+                    }
+                    node = node->down;
+                }
+                Node* right = node->right;
+                while (right != node) {
+                    auto cell = dynamic_cast<Cell*>(right);
+                    cover(*cell->header);
+                    right = right->right;
+                }
+                cover(*firstCol);
+                solution.push_back(row);
             }
         }
     }
@@ -252,6 +274,7 @@ int main() {
     for (auto &cell : cellList) {
         delete cell;
     }
+
 
 
 }
