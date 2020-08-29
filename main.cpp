@@ -10,7 +10,7 @@
 ////TODO open file, create grid
 ////TODO create empty list to store solution nodes' rows in matrix
 ////TODO remove numbers from matrix using grid by covering the 4 columns for each row
-//TODO include rows in solution
+////TODO include given rows in solution
 //TODO cover the matrix, add solutions
 //TODO put solution in txt using sorted list of rows
 
@@ -71,9 +71,9 @@ void uncover(Column &col) {
     col.left->right = &col;
 }
 
-bool search(Column &root) {
+void search(Column &root, std::vector<int> &solution) {
     if (root.right == &root) {
-        return true;
+        return;
     } else {
         //choosing smallest column
         Node* right = root.right;
@@ -88,34 +88,31 @@ bool search(Column &root) {
         }
 
         cover(*col);
-
         //recursion on smaller matrix
         Node* r = col->down;
         while (r != col) {
-            //TODO set Ok <- r
+            solution.push_back(r->row); ////TODO set Ok <- r
             Node* j = r->right;
             while (j != r) {
-                auto jCol = dynamic_cast<Column*>(j);
-                cover(*jCol);
+                auto cell = dynamic_cast<Cell*>(j);
+                cover(*cell->header);
                 j = j->right;
             }
-            if (search(root)) {
-                break;
-            } else {
-                //restore previous state
-                //TODO set r <- Ok and c <- C[r]
-                j = r->left;
-                while (j != r) {
-                    auto jCol = dynamic_cast<Column*>(j);
-                    uncover(*jCol);
-                    j = j->left;
-                }
+            search(root, solution);
+            //restore previous state
+            solution.pop_back(); //TODO set r <- Ok and c <- C[r]
+            std::cout << r->row << ":" << solution.size() << " " << std::flush;
+
+            j = r->left;
+            while (j != r) {
+                auto cell = dynamic_cast<Cell*>(j);
+                uncover(*cell->header);
+                j = j->left;
             }
             r = r->down;
         }
-
         uncover(*col);
-        return false;
+        return;
     }
 }
 
@@ -269,11 +266,15 @@ int main() {
         }
     }
 
+    search(root, solution);
+//    std::cout << solution.size() << std::endl;
+//    for (int row : solution) {
+//        std::cout << row << " " << std::flush;
+//    }
     //deallocating memory
     for (auto &cell : cellList) {
         delete cell;
     }
-
 
 
 }
