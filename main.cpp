@@ -9,7 +9,7 @@
 
 ////TODO open file, create grid
 ////TODO create empty list to store solution nodes' rows in matrix
-//TODO remove numbers from matrix using grid by covering the 4 columns for each row
+////TODO remove numbers from matrix using grid by covering the 4 columns for each row
 //TODO include rows in solution
 //TODO cover the matrix, add solutions
 //TODO put solution in txt using sorted list of rows
@@ -134,14 +134,31 @@ int main() {
     }
     txtFile.close();
 
-    //initial 729x324 matrix
-    std::vector<Cell*> cellList; //to free memory later
-
     std::vector<Column> columns;
     columns.reserve(324);
     for (int i = 1; i < 325; i++) {
         columns.emplace_back(Column(0, std::to_string(i)));
     }
+
+    //linking columns
+    Column root(0, "Root");
+    root.addRight(&columns[0]);
+    root.addLeft(&columns[323]);
+    for (int i = 0; i < 324; i++) {
+        if (i == 0) {
+            columns[i].addLeft(&root);
+            columns[i].addRight(&columns[1]);
+        } else if (i == 323) {
+            columns[i].addLeft(&columns[322]);
+            columns[i].addRight(&root);
+        } else {
+            columns[i].addLeft(&columns[i - 1]);
+            columns[i].addRight(&columns[i + 1]);
+        }
+    }
+
+    //initial 729x324 matrix
+    std::vector<Cell*> cellList; //to free memory later
 
     for (int i = 1; i < 730; i++) {
         Cell* first = new Cell;
@@ -218,24 +235,6 @@ int main() {
         second->row = i;
         third->row = i;
         fourth->row = i;
-    }
-
-    //linking columns
-    Column root(0, "Root");
-    root.addRight(&columns[0]);
-    root.addLeft(&columns[323]);
-
-    for (int i = 0; i < 324; i++) {
-        if (i == 0) {
-            columns[i].addLeft(&root);
-            columns[i].addRight(&columns[1]);
-        } else if (i == 323) {
-            columns[i].addLeft(&columns[322]);
-            columns[i].addRight(&root);
-        } else {
-            columns[i].addLeft(&columns[i - 1]);
-            columns[i].addRight(&columns[i + 1]);
-        }
     }
 
     std::vector<int> solution;
