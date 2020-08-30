@@ -1,18 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 #include "Node.h"
 #include "Column.h"
 #include "Cell.h"
 
-
-////TODO open file, create grid
-////TODO create empty list to store solution nodes' rows in matrix
-////TODO remove numbers from matrix using grid by covering the 4 columns for each row
-////TODO include given rows in solution
-//TODO cover the matrix, add solutions
-//TODO put solution in txt using sorted list of rows
 
 void vertLink(Cell &cell, Column &col) {
     if (!col.down) {
@@ -71,8 +65,25 @@ void uncover(Column &col) {
     col.left->right = &col;
 }
 
-void search(Column &root, std::vector<int> &solution) {
+void search(Column &root, std::vector<Node*> &solutionNodes, std::vector<int> &solution) {
     if (root.right == &root) {
+        std::ofstream file ("sudoku.txt");
+        std::sort(solution.begin(), solution.end());
+        std::string row;
+        int count = 0;
+        for (int &num: solution) {
+            std::string value = num % 9 == 0 ? std::to_string(9) : std::to_string(num % 9);
+            if (count == 8) {
+                count = 0;
+                row += (value + "\n");
+                file << row;
+                row = "";
+            } else {
+                count++;
+                row += (value + ",");
+            }
+        }
+        file.close();
         return;
     } else {
         //choosing smallest column
@@ -88,25 +99,29 @@ void search(Column &root, std::vector<int> &solution) {
         }
 
         cover(*col);
+
         //recursion on smaller matrix
         Node* r = col->down;
         while (r != col) {
-            solution.push_back(r->row); ////TODO set Ok <- r
+            solutionNodes.push_back(r);
+            solution.push_back(r->row);
             Node* j = r->right;
             while (j != r) {
                 auto cell = dynamic_cast<Cell*>(j);
                 cover(*cell->header);
                 j = j->right;
             }
-            search(root, solution);
+            search(root, solutionNodes, solution);
             //restore previous state
-            solution.pop_back(); //TODO set r <- Ok and c <- C[r]
-            std::cout << r->row << ":" << solution.size() << " " << std::flush;
-
+            r = solutionNodes.back();
+            solutionNodes.pop_back();
+            solution.pop_back();
+            auto cell = dynamic_cast<Cell*>(r);
+            col = cell->header;
             j = r->left;
             while (j != r) {
-                auto cell = dynamic_cast<Cell*>(j);
-                uncover(*cell->header);
+                auto jCell = dynamic_cast<Cell*>(j);
+                uncover(*jCell->header);
                 j = j->left;
             }
             r = r->down;
@@ -234,6 +249,7 @@ int main() {
         fourth->row = i;
     }
 
+    std::vector<Node*> solutionNodes;
     std::vector<int> solution;
     //remove pre-existing numbers from matrix
     for (int i = 0; i < 9; i++) {
@@ -261,20 +277,16 @@ int main() {
                     right = right->right;
                 }
                 cover(*firstCol);
-                solution.push_back(row);
+                solutionNodes.push_back(node);
+                solution.push_back(node->row);
             }
         }
     }
 
-    search(root, solution);
-//    std::cout << solution.size() << std::endl;
-//    for (int row : solution) {
-//        std::cout << row << " " << std::flush;
-//    }
+    search(root, solutionNodes, solution);
+
     //deallocating memory
     for (auto &cell : cellList) {
         delete cell;
     }
-
-
 }
